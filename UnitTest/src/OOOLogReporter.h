@@ -1,11 +1,11 @@
-#ifndef OOODebugReporter_H
-#define OOODebugReporter_H
+#ifndef OOOLogReporter_H
+#define OOOLogReporter_H
 
 #include "OOOCode.h"
 #include "OOOILog.h"
 #include "OOOIReporter.h"
 
-#define OOOClass OOODebugReporter
+#define OOOClass OOOLogReporter
 OOODeclare(OOOILog * iLog)
 	OOOImplements
 		OOOImplement(OOOIReporter)

@@ -1,7 +1,7 @@
 #include "OOOUnitTestDefines.h"
 
 #include "OOOBufferedLog.h"
-#include "OOODebugReporter.h"
+#include "OOOLogReporter.h"
 #include "OOOUnitTests.h"
 
 #define OOOClass ReportTest
@@ -151,8 +151,8 @@ OOOConstructorEnd
 
 OOOTest(OOOUnitTests)
 {
-	OOOBufferedLog * pBufferedLog = OOOConstruct(OOOBufferedLog);
-	OOODebugReporter * pReporter = OOOConstruct(OOODebugReporter, OOOCast(OOOILog, pBufferedLog));
+	OOOBufferedLog * pLog = OOOConstruct(OOOBufferedLog);
+	OOOLogReporter * pReporter = OOOConstruct(OOOLogReporter, OOOCast(OOOILog, pLog));
 	ReportTest * pReportTest = OOOConstruct(ReportTest);
 	MemoryLeakTest * pMemoryLeakTest = OOOConstruct(MemoryLeakTest);
 	void * pMemoryMagic = O_malloc(10000);
@@ -168,7 +168,7 @@ OOOTest(OOOUnitTests)
 
 	OOOCall(pTests, run);
 
-	assert(OOOCall(pBufferedLog, check,
+	assert(OOOCall(pLog, check,
 			"BEGIN_UNIT_TEST_OUTPUT\n<?xml version \"1.0\"?><REPORT>\nEND_UNIT_TEST_OUTPUT\n"
 			"BEGIN_UNIT_TEST_OUTPUT\n<TEST name=\"My Test\">\nEND_UNIT_TEST_OUTPUT\n"
 			"BEGIN_UNIT_TEST_OUTPUT\n</TEST>\nEND_UNIT_TEST_OUTPUT\n"
@@ -186,6 +186,6 @@ OOOTest(OOOUnitTests)
 	OOODestroy(pMemoryLeakTest);
 	OOODestroy(pMemoryMagicTest);
 	OOODestroy(pReporter);
-	OOODestroy(pBufferedLog);
+	OOODestroy(pLog);
 }
 

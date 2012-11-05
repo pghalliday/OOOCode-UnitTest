@@ -1,27 +1,27 @@
-#include "OOODebugReporter.h"
+#include "OOOLogReporter.h"
 #include "stdarg.h"
 
-#define OOODebugReporter_LOG_MESSAGE_MAX_SIZE	4095
+#define OOOLogReporter_LOG_MESSAGE_MAX_SIZE	4095
 
 /* When printing to debug we want something easy to sed */
-#define OOODebugReporter_DEBUG_OUTPUT_FORMAT	"BEGIN_UNIT_TEST_OUTPUT\n%s\nEND_UNIT_TEST_OUTPUT\n"
+#define OOOLogReporter_DEBUG_OUTPUT_FORMAT	"BEGIN_UNIT_TEST_OUTPUT\n%s\nEND_UNIT_TEST_OUTPUT\n"
 
 /* XML formats for different types of output */
-#define OOODebugReporter_LOG_START_REPORT_FORMAT	"<?xml version \"1.0\"?><REPORT>"
-#define OOODebugReporter_LOG_START_TEST_FORMAT		"<TEST name=\"%s\">"
-#define OOODebugReporter_LOG_INFORMATION_FORMAT		"<INFORMATION file=\"%s\" line=\"%d\">%s</INFORMATION>"
-#define OOODebugReporter_LOG_WARNING_FORMAT			"<WARNING file=\"%s\" line=\"%d\">%s</WARNING>"
-#define OOODebugReporter_LOG_ERROR_FORMAT			"<ERROR file=\"%s\" line=\"%d\">%s</ERROR>"
-#define OOODebugReporter_MEMORY_LEAK_FORMAT			"<MEMORY_LEAK test=\"%s\" bytes=\"%u\"/>"
-#define OOODebugReporter_MEMORY_MAGIC_FORMAT		"<MEMORY_MAGIC test=\"%s\" bytes=\"%u\"/>"
-#define OOODebugReporter_LOG_END_TEST_FORMAT		"</TEST>"
-#define OOODebugReporter_LOG_END_REPORT_FORMAT		"</REPORT>"
+#define OOOLogReporter_LOG_START_REPORT_FORMAT	"<?xml version \"1.0\"?><REPORT>"
+#define OOOLogReporter_LOG_START_TEST_FORMAT		"<TEST name=\"%s\">"
+#define OOOLogReporter_LOG_INFORMATION_FORMAT		"<INFORMATION file=\"%s\" line=\"%d\">%s</INFORMATION>"
+#define OOOLogReporter_LOG_WARNING_FORMAT			"<WARNING file=\"%s\" line=\"%d\">%s</WARNING>"
+#define OOOLogReporter_LOG_ERROR_FORMAT			"<ERROR file=\"%s\" line=\"%d\">%s</ERROR>"
+#define OOOLogReporter_MEMORY_LEAK_FORMAT			"<MEMORY_LEAK test=\"%s\" bytes=\"%u\"/>"
+#define OOOLogReporter_MEMORY_MAGIC_FORMAT		"<MEMORY_MAGIC test=\"%s\" bytes=\"%u\"/>"
+#define OOOLogReporter_LOG_END_TEST_FORMAT		"</TEST>"
+#define OOOLogReporter_LOG_END_REPORT_FORMAT		"</REPORT>"
 
-#define OOOClass OOODebugReporter
+#define OOOClass OOOLogReporter
 
 OOOPrivateData
 	OOOILog * iLog;
-	char szLogMessage[OOODebugReporter_LOG_MESSAGE_MAX_SIZE + 1];
+	char szLogMessage[OOOLogReporter_LOG_MESSAGE_MAX_SIZE + 1];
 OOOPrivateDataEnd
 
 OOODestructor
@@ -30,19 +30,19 @@ OOODestructorEnd
 OOOMethod(void, report, char * szText)
 {
 	/* At the moment we only write to debug in a format that is easy to sed */
-	OOOICall(OOOF(iLog), print, OOODebugReporter_DEBUG_OUTPUT_FORMAT, szText);
+	OOOICall(OOOF(iLog), print, OOOLogReporter_DEBUG_OUTPUT_FORMAT, szText);
 }
 OOOMethodEnd
 
 OOOMethod(void, startReport)
 {
-	OOOC(report, OOODebugReporter_LOG_START_REPORT_FORMAT);
+	OOOC(report, OOOLogReporter_LOG_START_REPORT_FORMAT);
 }
 OOOMethodEnd
 
 OOOMethod(void, startTestReport, char * szName)
 {
-	char * szText = O_dsprintf(OOODebugReporter_LOG_START_TEST_FORMAT, szName);
+	char * szText = O_dsprintf(OOOLogReporter_LOG_START_TEST_FORMAT, szName);
 	OOOC(report, szText);
 	O_free(szText);
 }
@@ -61,18 +61,18 @@ OOOMethod(void, log, OOOIReporter_LogLevel nLogLevel, char * szFile, int nLine, 
 	/* There is a fixed size buffer for formatting the
 	 * message - must ensure we haven't overrun it (no
 	 * nicer way of doing this as far as i know) */
-	assert(nMessageLength < OOODebugReporter_LOG_MESSAGE_MAX_SIZE);
+	assert(nMessageLength < OOOLogReporter_LOG_MESSAGE_MAX_SIZE);
 
 	switch (nLogLevel)
 	{
 	case OOOIReporter_LogLevel_Information:
-		szText = O_dsprintf(OOODebugReporter_LOG_INFORMATION_FORMAT, szFile, nLine, OOOF(szLogMessage));
+		szText = O_dsprintf(OOOLogReporter_LOG_INFORMATION_FORMAT, szFile, nLine, OOOF(szLogMessage));
 		break;
 	case OOOIReporter_LogLevel_Warning:
-		szText = O_dsprintf(OOODebugReporter_LOG_WARNING_FORMAT, szFile, nLine, OOOF(szLogMessage));
+		szText = O_dsprintf(OOOLogReporter_LOG_WARNING_FORMAT, szFile, nLine, OOOF(szLogMessage));
 		break;
 	case OOOIReporter_LogLevel_Error:
-		szText = O_dsprintf(OOODebugReporter_LOG_ERROR_FORMAT, szFile, nLine, OOOF(szLogMessage));
+		szText = O_dsprintf(OOOLogReporter_LOG_ERROR_FORMAT, szFile, nLine, OOOF(szLogMessage));
 		break;
 	}
 
@@ -96,7 +96,7 @@ OOOMethodEnd
 
 OOOMethod(void, memoryLeak, char * szTest, size_t uBytesLost)
 {
-	char *szText = O_dsprintf(OOODebugReporter_MEMORY_LEAK_FORMAT, szTest, uBytesLost);
+	char *szText = O_dsprintf(OOOLogReporter_MEMORY_LEAK_FORMAT, szTest, uBytesLost);
 	OOOC(report, szText);
 	O_free(szText);
 }
@@ -104,7 +104,7 @@ OOOMethodEnd
 
 OOOMethod(void, memoryMagic, char * szTest, size_t uBytesGained)
 {
-	char *szText = O_dsprintf(OOODebugReporter_MEMORY_MAGIC_FORMAT, szTest, uBytesGained);
+	char *szText = O_dsprintf(OOOLogReporter_MEMORY_MAGIC_FORMAT, szTest, uBytesGained);
 	OOOC(report, szText);
 	O_free(szText);
 }
@@ -112,13 +112,13 @@ OOOMethodEnd
 
 OOOMethod(void, endTestReport)
 {
-	OOOC(report, OOODebugReporter_LOG_END_TEST_FORMAT);
+	OOOC(report, OOOLogReporter_LOG_END_TEST_FORMAT);
 }
 OOOMethodEnd
 
 OOOMethod(void, endReport)
 {
-	OOOC(report, OOODebugReporter_LOG_END_REPORT_FORMAT);
+	OOOC(report, OOOLogReporter_LOG_END_REPORT_FORMAT);
 }
 OOOMethodEnd
 
