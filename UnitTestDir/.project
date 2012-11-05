@@ -4,7 +4,6 @@
 	<comment></comment>
 	<projects>
 		<project>UnitTest</project>
-		<project>UnitTestRes</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

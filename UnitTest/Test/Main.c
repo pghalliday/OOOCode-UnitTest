@@ -1,6 +1,6 @@
 #include "opentv.h"
 #include "assert.h"
-#include "OOODebug.h"
+#include "OOODebugLog.h"
 #include "OOODebugReporter.h"
 #include "OOOUnitTestsRun.h"
 
@@ -8,11 +8,11 @@
 void main(void)
 {
 	/* run the tests first */
-	OOODebug * pDebug = OOOConstruct(OOODebug);
-	OOODebugReporter * pReporter = OOOConstruct(OOODebugReporter, OOOCast(OOOIDebug, pDebug));
+	OOODebugLog * pDebugLog = OOOConstruct(OOODebugLog);
+	OOODebugReporter * pReporter = OOOConstruct(OOODebugReporter, OOOCast(OOOILog, pDebugLog));
 	OOOUnitTestsRun(OOOCast(OOOIReporter, pReporter));
 	OOODestroy(pReporter);
-	OOODestroy(pDebug);
+	OOODestroy(pDebugLog);
 
 	while (TRUE) {
 		// Do nothing

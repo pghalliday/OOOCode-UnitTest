@@ -20,7 +20,7 @@
 #define OOOClass OOODebugReporter
 
 OOOPrivateData
-	OOOIDebug * iDebug;
+	OOOILog * iLog;
 	char szLogMessage[OOODebugReporter_LOG_MESSAGE_MAX_SIZE + 1];
 OOOPrivateDataEnd
 
@@ -30,7 +30,7 @@ OOODestructorEnd
 OOOMethod(void, report, char * szText)
 {
 	/* At the moment we only write to debug in a format that is easy to sed */
-	OOOICall(OOOF(iDebug), print, OOODebugReporter_DEBUG_OUTPUT_FORMAT, szText);
+	OOOICall(OOOF(iLog), print, OOODebugReporter_DEBUG_OUTPUT_FORMAT, szText);
 }
 OOOMethodEnd
 
@@ -122,7 +122,7 @@ OOOMethod(void, endReport)
 }
 OOOMethodEnd
 
-OOOConstructor(OOOIDebug * iDebug)
+OOOConstructor(OOOILog * iLog)
 {
 	#define OOOInterface OOOIReporter
 	OOOMapVirtuals
@@ -140,7 +140,7 @@ OOOConstructor(OOOIDebug * iDebug)
 	OOOMapMethods
 	OOOMapMethodsEnd
 
-	OOOF(iDebug) = iDebug;
+	OOOF(iLog) = iLog;
 }
 OOOConstructorEnd
 
