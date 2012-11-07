@@ -1,27 +1,25 @@
 #include "OOOLogReporter.h"
+#include "OOO_vprintf.h"
 #include "stdarg.h"
-
-#define OOOLogReporter_LOG_MESSAGE_MAX_SIZE	4095
 
 /* When printing to debug we want something easy to sed */
 #define OOOLogReporter_DEBUG_OUTPUT_FORMAT	"BEGIN_UNIT_TEST_OUTPUT\n%s\nEND_UNIT_TEST_OUTPUT\n"
 
 /* XML formats for different types of output */
 #define OOOLogReporter_LOG_START_REPORT_FORMAT	"<?xml version \"1.0\"?><REPORT>"
-#define OOOLogReporter_LOG_START_TEST_FORMAT		"<TEST name=\"%s\">"
-#define OOOLogReporter_LOG_INFORMATION_FORMAT		"<INFORMATION file=\"%s\" line=\"%d\">%s</INFORMATION>"
-#define OOOLogReporter_LOG_WARNING_FORMAT			"<WARNING file=\"%s\" line=\"%d\">%s</WARNING>"
+#define OOOLogReporter_LOG_START_TEST_FORMAT	"<TEST name=\"%s\">"
+#define OOOLogReporter_LOG_INFORMATION_FORMAT	"<INFORMATION file=\"%s\" line=\"%d\">%s</INFORMATION>"
+#define OOOLogReporter_LOG_WARNING_FORMAT		"<WARNING file=\"%s\" line=\"%d\">%s</WARNING>"
 #define OOOLogReporter_LOG_ERROR_FORMAT			"<ERROR file=\"%s\" line=\"%d\">%s</ERROR>"
-#define OOOLogReporter_MEMORY_LEAK_FORMAT			"<MEMORY_LEAK test=\"%s\" bytes=\"%u\"/>"
+#define OOOLogReporter_MEMORY_LEAK_FORMAT		"<MEMORY_LEAK test=\"%s\" bytes=\"%u\"/>"
 #define OOOLogReporter_MEMORY_MAGIC_FORMAT		"<MEMORY_MAGIC test=\"%s\" bytes=\"%u\"/>"
 #define OOOLogReporter_LOG_END_TEST_FORMAT		"</TEST>"
-#define OOOLogReporter_LOG_END_REPORT_FORMAT		"</REPORT>"
+#define OOOLogReporter_LOG_END_REPORT_FORMAT	"</REPORT>"
 
 #define OOOClass OOOLogReporter
 
 OOOPrivateData
 	OOOILog * iLog;
-	char szLogMessage[OOOLogReporter_LOG_MESSAGE_MAX_SIZE + 1];
 OOOPrivateDataEnd
 
 OOODestructor
@@ -51,28 +49,22 @@ OOOMethodEnd
 OOOMethod(void, log, OOOIReporter_LogLevel nLogLevel, char * szFile, int nLine, char * szMessage, ...)
 {
 	va_list aArgs;
-	int nMessageLength = 0;
 	char * szText = NULL;
 
 	va_start(aArgs, szMessage);
-	nMessageLength = O_vsprintf(OOOF(szLogMessage), szMessage, aArgs);
+	OOO_vprintf(szMessage, aArgs);
 	va_end(aArgs);
-
-	/* There is a fixed size buffer for formatting the
-	 * message - must ensure we haven't overrun it (no
-	 * nicer way of doing this as far as i know) */
-	assert(nMessageLength < OOOLogReporter_LOG_MESSAGE_MAX_SIZE);
 
 	switch (nLogLevel)
 	{
 	case OOOIReporter_LogLevel_Information:
-		szText = O_dsprintf(OOOLogReporter_LOG_INFORMATION_FORMAT, szFile, nLine, OOOF(szLogMessage));
+		szText = O_dsprintf(OOOLogReporter_LOG_INFORMATION_FORMAT, szFile, nLine, OOO_vprintf_szBuffer);
 		break;
 	case OOOIReporter_LogLevel_Warning:
-		szText = O_dsprintf(OOOLogReporter_LOG_WARNING_FORMAT, szFile, nLine, OOOF(szLogMessage));
+		szText = O_dsprintf(OOOLogReporter_LOG_WARNING_FORMAT, szFile, nLine, OOO_vprintf_szBuffer);
 		break;
 	case OOOIReporter_LogLevel_Error:
-		szText = O_dsprintf(OOOLogReporter_LOG_ERROR_FORMAT, szFile, nLine, OOOF(szLogMessage));
+		szText = O_dsprintf(OOOLogReporter_LOG_ERROR_FORMAT, szFile, nLine, OOO_vprintf_szBuffer);
 		break;
 	}
 
