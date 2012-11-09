@@ -26,7 +26,7 @@ extern OOOIReporter * iOOOReporter;
 	\
 	static void OOOPaste(OOOPaste(OOOUnitTest_,NAME), _actuallyRun)(OOOPaste(OOOUnitTest_,NAME) * OOOThis); \
 	_OOOMethod(OOOPaste(OOOUnitTest_,NAME), void, run) \
-		_OOOPCall(OOOPaste(OOOUnitTest_,NAME), OOOThis, actuallyRun); \
+		OOOPCCall(OOOPaste(OOOUnitTest_,NAME), OOOThis, actuallyRun); \
 	OOOMethodEnd \
 	\
 	_OOOMethod(OOOPaste(OOOUnitTest_,NAME), char *, getName) \
