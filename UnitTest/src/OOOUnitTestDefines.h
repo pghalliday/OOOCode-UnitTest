@@ -46,15 +46,15 @@ extern OOOIReporter * iOOOReporter;
 
 #define OOOInfo0(MESSAGE, ARGS...)	OOOICall(iOOOReporter, log, OOOIReporter_LogLevel_Information, __FILE__, __LINE__, MESSAGE, ARGS)
 #define OOOInfo1(MESSAGE, ARGS...)	OOOICall(iOOOReporter, log, OOOIReporter_LogLevel_Information, __FILE__, __LINE__, MESSAGE)
-#define OOOInfo(MESSAGE, ARGS...)	OOOPaste(OOOInfo, OOOIsEmpty(ARGS))(MESSAGE, ARGS...)
+#define OOOInfo(MESSAGE, ARGS...)	OOOPaste(OOOInfo, OOOIsEmpty(ARGS))(MESSAGE, ARGS)
 
 #define OOOWarning0(MESSAGE, ARGS...)	OOOICall(iOOOReporter, log, OOOIReporter_LogLevel_Warning, __FILE__, __LINE__, MESSAGE, ARGS)
 #define OOOWarning1(MESSAGE, ARGS...)	OOOICall(iOOOReporter, log, OOOIReporter_LogLevel_Warning, __FILE__, __LINE__, MESSAGE)
-#define OOOWarning(MESSAGE, ARGS...)	OOOPaste(OOOWarning, OOOIsEmpty(ARGS))(MESSAGE, ARGS...)
+#define OOOWarning(MESSAGE, ARGS...)	OOOPaste(OOOWarning, OOOIsEmpty(ARGS))(MESSAGE, ARGS)
 
 #define OOOError0(MESSAGE, ARGS...)	OOOICall(iOOOReporter, log, OOOIReporter_LogLevel_Error, __FILE__, __LINE__, MESSAGE, ARGS)
 #define OOOError1(MESSAGE, ARGS...)	OOOICall(iOOOReporter, log, OOOIReporter_LogLevel_Error, __FILE__, __LINE__, MESSAGE)
-#define OOOError(MESSAGE, ARGS...)	OOOPaste(OOOError, OOOIsEmpty(ARGS))(MESSAGE, ARGS...)
+#define OOOError(MESSAGE, ARGS...)	OOOPaste(OOOError, OOOIsEmpty(ARGS))(MESSAGE, ARGS)
 
 #define OOOCheck(CONDITION)	(OOOICall(iOOOReporter, check, (CONDITION), __FILE__, __LINE__, OOOQuote(CONDITION)))
 
