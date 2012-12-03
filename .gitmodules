@@ -4,3 +4,6 @@
 [submodule "UnitTest/submodules/Log"]
 	path = UnitTest/submodules/Log
 	url = https://github.com/pghalliday/OOOCode-Log.git
+[submodule "UnitTest/submodules/Macros"]
+	path = UnitTest/submodules/Macros
+	url = https://github.com/pghalliday/OOOCode-Macros.git
