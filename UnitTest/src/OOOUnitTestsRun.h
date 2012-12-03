@@ -1,8 +1,7 @@
 #ifndef OOOUnitTestsRun_H
 #define OOOUnitTestsRun_H
 
-#include "OOOPastingAndQuoting.h"
-
+#include "OOOPaste.h"
 #include "OOOUnitTests.h"
 #include "OOOIReporter.h"
 

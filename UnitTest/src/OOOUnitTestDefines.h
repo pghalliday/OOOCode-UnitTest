@@ -1,8 +1,9 @@
 #ifndef OOOUnitTestDefines_H
 #define OOOUnitTestDefines_H
 
-#include "OOOPastingAndQuoting.h"
-#include "OOOEmptyArguments.h"
+#include "OOOPaste.h"
+#include "OOOQuote.h"
+#include "OOOIsEmpty.h"
 
 #include "OOOIUnitTest.h"
 
