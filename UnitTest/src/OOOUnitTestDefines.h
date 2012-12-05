@@ -25,7 +25,7 @@ extern OOOIReporter * iOOOReporter;
 	_OOODestructor(OOOPaste(OOOUnitTest_,NAME)) \
 	_OOODestructorEnd(OOOPaste(OOOUnitTest_,NAME)) \
 	\
-	static void OOOPaste(OOOPaste(OOOUnitTest_,NAME), _actuallyRun)(OOOPaste(OOOUnitTest_,NAME) * OOOThis); \
+	static void OOOPaste(OOOUnitTest_,NAME,_actuallyRun)(OOOPaste(OOOUnitTest_,NAME) * OOOThis); \
 	_OOOMethod(OOOPaste(OOOUnitTest_,NAME), void, run) \
 		OOOPCCall(OOOPaste(OOOUnitTest_,NAME), OOOThis, actuallyRun); \
 	OOOMethodEnd \
@@ -43,7 +43,7 @@ extern OOOIReporter * iOOOReporter;
 		OOOMapMethodsEnd \
 	OOOConstructorEnd \
 	\
-	static void OOOPaste(OOOPaste(OOOUnitTest_,NAME), _actuallyRun)(OOOPaste(OOOUnitTest_,NAME) * OOOThis)
+	static void OOOPaste(OOOUnitTest_,NAME,_actuallyRun)(OOOPaste(OOOUnitTest_,NAME) * OOOThis)
 
 #define OOOInfo0(MESSAGE, ARGS...)	OOOICall(iOOOReporter, log, OOOIReporter_LogLevel_Information, __FILE__, __LINE__, MESSAGE, ARGS)
 #define OOOInfo1(MESSAGE, ARGS...)	OOOICall(iOOOReporter, log, OOOIReporter_LogLevel_Information, __FILE__, __LINE__, MESSAGE)
